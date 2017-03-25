@@ -6,6 +6,7 @@
         "node": true
     },
     "extends": "eslint:recommended",
+    "sourceType": "module",
     "parserOptions": {
         "ecmaFeatures": {
             "experimentalObjectRestSpread": true,
