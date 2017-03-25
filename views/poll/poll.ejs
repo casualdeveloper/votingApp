@@ -1,0 +1,15 @@
+<%- include ../header.ejs %>
+    <div class="container">
+        <div class="card">
+            <div class="card-block text-center">
+                <h1>
+                    <%= poll.title %>
+                </h1>
+                <canvas id="myChart" width="400" height="400"></canvas>
+                <script>
+                    var poll = <%- JSON.stringify(poll) %>;
+                </script>
+            </div>
+        </div>
+    </div>
+<%- include ../footer.ejs %>
