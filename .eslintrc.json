@@ -6,14 +6,15 @@
         "node": true
     },
     "extends": "eslint:recommended",
-    "sourceType": "module",
     "parserOptions": {
+        "sourceType": "module",
         "ecmaFeatures": {
             "experimentalObjectRestSpread": true,
             "jsx": true
         }
     },
     "rules": {
+        "no-console": ["off"],
         "linebreak-style": [
             "error",
             "windows"
