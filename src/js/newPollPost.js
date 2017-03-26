@@ -14,8 +14,10 @@ newPollForm.on("submit", (e) => {
         url: "/poll",
         data: data,
         dataType: "json",
-        success: function() {
-            console.log("yay");
+        success: function(data) {
+            if (typeof(data.redirect) === "string") {
+                window.location = data.redirect;
+            }
         },
 
     });

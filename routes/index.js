@@ -26,7 +26,7 @@ router.get("/poll/new", isLoggedIn, function(req, res) {
 
 router.post("/poll", isLoggedIn, function(req, res) {
     console.log(req.body);
-    res.redirect("/");
+    res.json({ status: 200, redirect: "/" });
 });
 
 router.get("/poll/:id", function(req, res) {
