@@ -25,7 +25,29 @@ router.get("/poll/new", isLoggedIn, function(req, res) {
 });
 
 router.post("/poll", isLoggedIn, function(req, res) {
-    console.log(req.body);
+    let data = req.body;
+
+    let results = [];
+
+    //generate results (starts at 0)
+    for (let i = 0; i < data.options.length; i++) {
+        results.push(0);
+    }
+    data.results = results;
+
+    poll.create(data, (err, newPoll) => {
+        if (err) {
+            console.log(err);
+        } else {
+            //Add author to the poll
+            newPoll.author.id = req.user._id;
+            newPoll.author.username = req.user.username;
+            newPoll.save();
+        }
+    });
+
+    console.log(data);
+    // redirect will be used by ajax success function to change window.location (redirect)
     res.json({ status: 200, redirect: "/" });
 });
 
