@@ -5,10 +5,12 @@ var pollSchema = new mongoose.Schema({
     results: Array,
     options: Array,
     colors: Array,
-    author: String,
-    author_id: {
-        ref: "user",
-        type: mongoose.Schema.Types.ObjectId
+    author: {
+        id: {
+            ref: "user",
+            type: mongoose.Schema.Types.ObjectId
+        },
+        username: String
     }
 });
 
