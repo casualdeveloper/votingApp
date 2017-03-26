@@ -66,6 +66,28 @@ router.post("/poll", isLoggedIn, function(req, res) {
     res.json({ status: 200, redirect: "/" });
 });
 
+
+router.get("/user/:id", function(req, res) {
+    var userPolls;
+    //pull polls from database
+    user.findById(req.params.id, function(err, user) { //user retrieved from database
+        if (err) {
+            userPolls = "error occured, please try again later";
+        } else {
+            userPolls = user.posts;
+            userPolls = (userPolls.length === 0) ? "User hasn't created a poll yet" : userPolls;
+        }
+
+        //obj to send info about user
+        let userObj = {
+            username: user.username
+        };
+
+        res.render("profile.ejs", { polls: userPolls, profile: userObj });
+    });
+});
+
+
 router.get("/poll/:id", function(req, res) {
     var renderObj;
     poll.findById(req.params.id, function(err, obj) {
