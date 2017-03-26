@@ -13,6 +13,7 @@ app.use(compression());
 //ROUTES ===========================================
 var indexRoutes = require("./routes/index");
 var authRoutes = require("./routes/auth");
+var usersRoutes = require("./routes/users");
 // =================================================
 
 mongoose.connect("mongodb://localhost/votingapp");
@@ -45,6 +46,7 @@ app.use(function(req, res, next) {
 //USING ROUTES ==========
 app.use(indexRoutes);
 app.use(authRoutes);
+app.use(usersRoutes);
 // ======================
 
 
