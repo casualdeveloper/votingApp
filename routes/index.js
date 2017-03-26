@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var poll = require("../models/poll.js");
 var user = require("../models/user.js");
+var mongoose = require("mongoose");
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
@@ -76,6 +77,26 @@ router.get("/poll/:id", function(req, res) {
             renderObj = obj;
         }
         res.render("poll/poll.ejs", { poll: renderObj });
+    });
+});
+
+router.delete("/poll/:id", function(req, res) {
+    //delete poll from users list
+    let objId = mongoose.Types.ObjectId(req.params.id);
+    for (let i = 0; i < req.user.posts.length; i++) {
+        if (req.user.posts[i]._id.equals(objId)) {
+            req.user.posts.splice(i, 1);
+            req.user.save();
+            break;
+        }
+    }
+    //delete poll from database
+    poll.findByIdAndRemove(req.params.id, function(err) {
+        if (err) {
+            res.redirect("/user/" + req.user._id);
+        } else {
+            res.redirect("/user/" + req.user._id);
+        }
     });
 });
 

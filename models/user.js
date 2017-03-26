@@ -6,7 +6,7 @@ var userSchema = new mongoose.Schema({
     password: String,
     posts: [{
         _id: {
-            ref: "post",
+            ref: "poll",
             type: mongoose.Schema.Types.ObjectId
         },
         title: String

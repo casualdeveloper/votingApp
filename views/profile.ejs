@@ -14,6 +14,11 @@
                         <a href=<%= "/poll/" + polls[i]._id %> class="button button-block button-action button-large list-custom-button">
                             <%= polls[i].title %>
                         </a>
+                        <form action="/poll/<%= polls[i]._id %>?_method=DELETE" method="POST">
+                            <button class="button button-caution button-large button-jumbo list-custom-button">
+                                Delete
+                            </button>
+                        </form>
                     <% } %>
                 <% } %>
 

@@ -6,9 +6,10 @@ var bodyParser = require("body-parser");
 var passport = require("passport");
 var passportLocal = require("passport-local");
 var compression = require("compression");
-
+var methodOverride = require("method-override");
 
 app.use(compression());
+app.use(methodOverride("_method"));
 
 //ROUTES ===========================================
 var indexRoutes = require("./routes/index");
