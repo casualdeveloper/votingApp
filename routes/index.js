@@ -25,6 +25,7 @@ router.get("/poll/new", isLoggedIn, function(req, res) {
 });
 
 router.post("/poll", isLoggedIn, function(req, res) {
+    console.log(req.body);
     res.redirect("/");
 });
 

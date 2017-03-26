@@ -18,8 +18,8 @@ import Chart from "chart.js/dist/Chart.min.js";
                 hoverBackgroundColor: jsPoll.colors
             }]
         };
-        let myDoughnutChart = new Chart(ctx.getContext("2d"), {
-            type: 'doughnut',
+        new Chart(ctx.getContext("2d"), {
+            type: "doughnut",
             data: data,
             options: {}
         });

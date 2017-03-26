@@ -5,7 +5,7 @@ var user = require("./models/user.js");
 var bodyParser = require("body-parser");
 var passport = require("passport");
 var passportLocal = require("passport-local");
-var compression = require('compression');
+var compression = require("compression");
 
 
 app.use(compression());

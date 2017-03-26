@@ -1,7 +1,4 @@
-/* global poll */
-
-import "./showChart.js";
-import "./newPoll.js";
-import { generateColor } from "./randomColor.js";
-
-console.log(generateColor());
+import "./showChart";
+import "./newPollOptions";
+import "./newPollPost";
+import { generateColor } from "./randomColor";
