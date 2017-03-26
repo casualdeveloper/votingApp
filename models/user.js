@@ -5,8 +5,11 @@ var userSchema = new mongoose.Schema({
     username: String,
     password: String,
     posts: [{
-        ref: "post",
-        type: mongoose.Schema.Types.ObjectId
+        _id: {
+            ref: "post",
+            type: mongoose.Schema.Types.ObjectId
+        },
+        title: String
     }]
 });
 

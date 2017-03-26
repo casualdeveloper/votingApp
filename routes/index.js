@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var poll = require("../models/poll.js");
-var mongoose = require("mongoose");
+var user = require("../models/user.js");
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
@@ -42,11 +42,26 @@ router.post("/poll", isLoggedIn, function(req, res) {
             //Add author to the poll
             newPoll.author.id = req.user._id;
             newPoll.author.username = req.user.username;
+
             newPoll.save();
+
+            //add poll to users created polls list
+            user.findById(req.user._id, (err, user) => { //user passed in function is user object retrieved from database
+                if (err) {
+                    console.log(err);
+                } else {
+                    let pollRef = {
+                        title: newPoll.title,
+                        _id: newPoll._id
+                    };
+                    user.posts.push(pollRef);
+                    user.save();
+                }
+
+            });
         }
     });
 
-    console.log(data);
     // redirect will be used by ajax success function to change window.location (redirect)
     res.json({ status: 200, redirect: "/" });
 });
