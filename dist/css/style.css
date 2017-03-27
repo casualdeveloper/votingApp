@@ -1,0 +1,29 @@
+body {
+  background: #eee;
+  margin-top: 84px; }
+
+/*.btn {
+    margin-left: 5px;
+}*/
+@media (max-width: 767px) {
+  #menu > .container {
+    width: 320px; } }
+
+@media (max-width: 320px) {
+  #menu > .container {
+    width: 200px; } }
+
+#jumb {
+  margin-top: -30px;
+  background: white; }
+
+.list-custom-button {
+  text-align: left; }
+  .list-custom-button:not(:last-child) {
+    margin-bottom: 8px; }
+
+#myChart {
+  max-height: 400px;
+  max-width: 400px; }
+
+/*# sourceMappingURL=style.css.map*/
