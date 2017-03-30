@@ -16,7 +16,8 @@ router.get("/user/:id", function(req, res) {
 
         //obj to send info about user
         let userObj = {
-            username: user.username
+            username: user.username,
+            id: user._id
         };
 
         res.render("profile.ejs", { polls: userPolls, profile: userObj });

@@ -80,24 +80,42 @@ router.get("/poll/:id", function(req, res) {
     });
 });
 
-router.delete("/poll/:id", function(req, res) {
-    //delete poll from users list
-    let objId = mongoose.Types.ObjectId(req.params.id);
-    for (let i = 0; i < req.user.posts.length; i++) {
-        if (req.user.posts[i]._id.equals(objId)) {
-            req.user.posts.splice(i, 1);
-            req.user.save();
-            break;
-        }
-    }
+router.delete("/poll/:id", checkPollOwnership, function(req, res) {
     //delete poll from database
     poll.findByIdAndRemove(req.params.id, function(err) {
         if (err) {
             res.redirect("/user/" + req.user._id);
         } else {
+            //delete poll from the list of all polls that user created 
+            let objId = mongoose.Types.ObjectId(req.params.id);
+            for (let i = 0; i < req.user.posts.length; i++) {
+                if (req.user.posts[i]._id.equals(objId)) {
+                    req.user.posts.splice(i, 1);
+                    req.user.save();
+                    break;
+                }
+            }
             res.redirect("/user/" + req.user._id);
         }
     });
 });
+
+function checkPollOwnership(req, res, next) {
+    if (req.isAuthenticated()) {
+        poll.findById(req.params.id, function(err, foundPoll) {
+            if (err) {
+                res.redirect("/user/" + foundPoll.author.id);
+            } else {
+                if (foundPoll.author.id.equals(req.user._id)) {
+                    next();
+                } else {
+                    res.redirect("/user/" + foundPoll.author.id);
+                }
+            }
+        });
+    } else {
+        res.redirect("/");
+    }
+}
 
 module.exports = router;
