@@ -3,6 +3,7 @@ var router = express.Router();
 var poll = require("../models/poll.js");
 var user = require("../models/user.js");
 var mongoose = require("mongoose");
+var ip = require("ip");
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
@@ -100,6 +101,35 @@ router.delete("/poll/:id", checkPollOwnership, function(req, res) {
     });
 });
 
+router.post("/pollVote/:id", function(req, res) {
+    poll.findById(req.params.id, function(err, pollToUpdate) {
+
+        let intIpAdress = dotToInt(req.ip);
+        //addToSet checks if ip adress exists, if not adds it to the pollsArray
+        pollToUpdate.update({ $addToSet: { voters: intIpAdress } }, (err, results) => {
+            if (err) {
+                console.log(err);
+            } else {
+                //if $addToSet inserted new ip adress into the array it return nModified = 1
+                if (results.nModified === 1) {
+                    //position gained from chosen option
+                    let position = parseInt(req.body.option);
+                    //object for $inc usage in properties
+                    let obj = {};
+                    obj["results." + position] = 1; // ends up looking like {'results.0':1} 1 is here for how big increment should be 
+
+                    pollToUpdate.update({ $inc: obj }, { upsert: true, safe: true }, (err) => {
+                        if (err) console.log(err);
+                        res.redirect("/poll/" + req.params.id);
+                    });
+                } else {
+                    res.send("YOU HAVE ALREADY VOTED :(");
+                }
+            }
+        });
+    });
+});
+
 function checkPollOwnership(req, res, next) {
     if (req.isAuthenticated()) {
         poll.findById(req.params.id, function(err, foundPoll) {
@@ -116,6 +146,18 @@ function checkPollOwnership(req, res, next) {
     } else {
         res.redirect("/");
     }
+}
+
+function dotToInt(str) {
+    let parts = str.split(".");
+    let res = 0;
+
+    res += (parseInt(parts[0], 10) << 24) >>> 0;
+    res += (parseInt(parts[1], 10) << 16) >>> 0;
+    res += (parseInt(parts[2], 10) << 8) >>> 0;
+    res += parseInt(parts[3], 10) >>> 0;
+
+    return res;
 }
 
 module.exports = router;

@@ -5,6 +5,7 @@ var pollSchema = new mongoose.Schema({
     results: Array,
     options: Array,
     colors: Array,
+    voters: Array,
     author: {
         id: {
             ref: "user",

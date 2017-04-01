@@ -53,7 +53,7 @@ app.use(usersRoutes);
 
 app.use(express.static("dist"));
 
-app.listen(8080, function(err) {
+app.listen(8080, "127.0.0.1", function(err) {
     if (err) console.log("error ", err);
     else console.log("server started successfully");
 });

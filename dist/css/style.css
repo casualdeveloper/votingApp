@@ -23,8 +23,8 @@ body {
     margin-bottom: 8px; }
 
 #myChart {
-  max-height: 400px;
-  max-width: 400px; }
+  max-height: 100%;
+  max-width: 100%; }
 
 .profile-poll-button-group {
   display: -webkit-box;

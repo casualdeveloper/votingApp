@@ -9,6 +9,16 @@
                 <script>
                     var poll = <%- JSON.stringify(poll) %>;
                 </script>
+                <br>
+                <form action="/pollVote/<%= poll._id %>" method="POST">
+                    <select class="form-control" name="option">
+                        <% for(var i = 0; i < poll.options.length; i++){ %>
+                            <option value="<%= i %>"><%= poll.options[i] %></option>
+                        <% } %>
+                    </select>
+                    <br>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+                </form>
             </div>
         </div>
     </div>
