@@ -11,16 +11,18 @@
                     <h2 class="text-center"><%= polls %></h2>
                 <% } else { %>
                     <% for(var i = 0; i < polls.length; i++){ %>
-                        <a href=<%= "/poll/" + polls[i]._id %> class="button button-block button-action button-large list-custom-button">
-                            <%= polls[i].title %>
-                        </a>
-                        <% if(user && profile.id.equals(user._id)){ %>
-                            <form action="/poll/<%= polls[i]._id %>?_method=DELETE" method="POST">
-                                <button class="button button-caution button-large button-jumbo list-custom-button">
-                                    Delete
-                                </button>
-                            </form>
-                        <% } %>
+                        <div class="profile-poll-button-group">
+                            <a href=<%= "/poll/" + polls[i]._id %> class="button button-block button-action button-jumbo list-custom-button w-100">
+                                <%= polls[i].title %>
+                            </a>
+                            <% if(user && profile.id.equals(user._id)){ %>
+                                <form action="/poll/<%= polls[i]._id %>?_method=DELETE" method="POST">
+                                    <button class="button button-caution button-jumbo button-square">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
+                            <% } %>
+                        </div>
                     <% } %>
                 <% } %>
 
