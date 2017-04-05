@@ -4,6 +4,11 @@ var passportLocalMongoose = require("passport-local-mongoose");
 var userSchema = new mongoose.Schema({
     username: String,
     password: String,
+    usingLocalStrategy: Boolean,
+    externalAccounts: [{
+        provider: String,
+        uid: String
+    }],
     posts: [{
         _id: {
             ref: "poll",

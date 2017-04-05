@@ -5,11 +5,11 @@ var user = require("../models/user.js");
 var passport = require("passport");
 
 
-router.get("/register", function(req, res) {
+router.get("/signup", function(req, res) {
     res.render("register.ejs");
 });
 
-router.post("/register", function(req, res) {
+router.post("/signup/uap", function(req, res) {
     var newUser = new user({ username: req.body.username });
     user.register(newUser, req.body.password, function(err) {
         if (err) {
@@ -23,15 +23,27 @@ router.post("/register", function(req, res) {
     });
 });
 
+router.get("/signup/twitter", passport.authenticate("twitter"));
+
+router.get("/signup/twitter/callback", passport.authenticate("twitter", {
+    successRedirect: "/",
+    failureRedirect: "/signup"
+}));
+
 router.get("/login", function(req, res) {
     res.render("login.ejs");
 });
 
-router.post("/login", passport.authenticate("local", {
-    successRedirect: "/",
+router.post("/login/uap", passport.authenticate("local", {
     failureRedirect: "/login"
-}), function() { //req, res can be used 
+}), function(req, res) {
+    res.redirect("/");
+});
 
+router.get("/login/twitter", passport.authenticate("twitter", {
+    failureRedirect: "/login"
+}), function(req, res) {
+    res.redirect("/");
 });
 
 router.get("/logout", function(req, res) {

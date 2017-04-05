@@ -3,7 +3,6 @@ var router = express.Router();
 var poll = require("../models/poll.js");
 var user = require("../models/user.js");
 var mongoose = require("mongoose");
-var ip = require("ip");
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {

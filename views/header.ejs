@@ -30,7 +30,7 @@
                 
                 <% if(!user){ %>
                     <a class="btn btn-outline-success my-2 my-sm-0 mr-sm-2" href="/login">Sign In</a>
-                    <a class="btn btn-outline-info my-2 my-sm-0" href="/register">Sign Up</a>
+                    <a class="btn btn-outline-info my-2 my-sm-0" href="/signup">Sign Up</a>
                 <% }else{ %>
                     <a class="nav-link" href=<%= "/user/"+user._id %> > <%= user.username %> </a>
                     <a class="btn btn-outline-primary my-2 my-sm-0 mr-sm-2" href="/poll/new">New Poll</a>

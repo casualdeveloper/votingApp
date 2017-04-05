@@ -2,7 +2,7 @@
     <div class="container">
         <div class="card">
             <div class="card-block ">
-                <form class="form-signin col-md-6 offset-md-3" method="POST" action="/login">
+                <form class="form-signin col-md-6 offset-md-3" method="POST" action="/login/uap">
                     <h2 class="form-signin-heading">Log in</h2>
                     <label for="inputUsername" class="sr-only">Username</label>
                     <input type="username" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
@@ -11,6 +11,9 @@
                     <br>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
                 </form>
+                <div class="text-center">
+                    <a href="/login/twitter"><i class="fa fa-twitter-square fa-3x" aria-hidden="true"></i></a>
+                </div>
             </div>
         </div>
     </div>
