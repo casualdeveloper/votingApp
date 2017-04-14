@@ -13,10 +13,11 @@ router.post("/signup/uap", function(req, res) {
     var newUser = new user({ username: req.body.username });
     user.register(newUser, req.body.password, function(err) {
         if (err) {
-            console.log(err);
-            return res.render("register.ejs");
+            req.flash("error", err.message);
+            return res.redirect("back");
         } else {
             passport.authenticate("local")(req, res, function() {
+                req.flash("success", "Welcome! " + req.user.username);
                 res.redirect("/");
             });
         }
@@ -35,8 +36,10 @@ router.get("/login", function(req, res) {
 });
 
 router.post("/login/uap", passport.authenticate("local", {
-    failureRedirect: "/login"
+    failureRedirect: "/login",
+    failureFlash: true
 }), function(req, res) {
+    req.flash("success", "Welcome back! " + req.user.username);
     res.redirect("/");
 });
 
@@ -48,6 +51,7 @@ router.get("/login/twitter", passport.authenticate("twitter", {
 
 router.get("/logout", function(req, res) {
     req.logout();
+    req.flash("success", "Logged out!");
     res.redirect("/");
 });
 

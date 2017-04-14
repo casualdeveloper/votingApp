@@ -41,3 +41,10 @@
             </div>
         </div>
     </nav>
+    <div id="placeholder"></div>
+    <% if(error!=""){ %>
+        <div class="alert alert-danger text-center" role="alert"><%= error %> </div>
+    <% } %>
+    <% if(success!=""){ %>
+        <div class="alert alert-success text-center" role="alert"><%= success %> </div>
+    <% } %>

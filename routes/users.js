@@ -1,6 +1,5 @@
 var express = require("express");
 var router = express.Router();
-var poll = require("../models/poll.js");
 var user = require("../models/user.js");
 
 router.get("/user/:id", function(req, res) {

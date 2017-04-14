@@ -9,6 +9,7 @@ var passportTwitter = require("passport-twitter");
 var compression = require("compression");
 var methodOverride = require("method-override");
 var config = require("./_config.js");
+var flash = require("connect-flash");
 
 
 app.use(compression());
@@ -25,6 +26,8 @@ mongoose.connect("mongodb://localhost/votingapp");
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
+
+app.use(flash());
 
 //PASSPORT CONFIG =======================================
 
@@ -85,6 +88,8 @@ passport.deserializeUser(user.deserializeUser());
 
 app.use(function(req, res, next) {
     res.locals.user = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
     next();
 });
 

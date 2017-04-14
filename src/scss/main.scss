@@ -1,29 +1,42 @@
 $BG_Color: #eee;
+$NAV_H: 54px;
 body {
     background: $BG_Color;
-    margin-top: 84px;
 }
 
+#menu {
+    max-height: $NAV_H;
+}
 
-/*.btn {
-    margin-left: 5px;
-}*/
+#placeholder {
+    min-height: $NAV_H;
+    max-height: $NAV_H;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
 
 @media (max-width: 767px) {
+    #menu {
+        max-height: 100%;
+    }
     #menu>.container {
         width: 320px;
     }
 }
 
 @media (max-width: 320px) {
+    #menu {
+        max-height: 100%;
+    }
     #menu>.container {
         width: 200px;
     }
 }
 
 #jumb {
-    margin-top: -30px;
     background: white;
+    margin-bottom: 0px;
 }
 
 .list-custom-button {
@@ -40,4 +53,12 @@ body {
 
 .profile-poll-button-group {
     display: flex;
+}
+
+.alert {
+    margin-bottom: 0px;
+}
+
+.card {
+    margin-top: 30px;
 }

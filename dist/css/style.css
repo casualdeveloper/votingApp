@@ -1,21 +1,31 @@
 body {
-  background: #eee;
-  margin-top: 84px; }
+  background: #eee; }
 
-/*.btn {
-    margin-left: 5px;
-}*/
+#menu {
+  max-height: 54px; }
+
+#placeholder {
+  min-height: 54px;
+  max-height: 54px;
+  width: 100%;
+  padding: 0px;
+  margin: 0px; }
+
 @media (max-width: 767px) {
+  #menu {
+    max-height: 100%; }
   #menu > .container {
     width: 320px; } }
 
 @media (max-width: 320px) {
+  #menu {
+    max-height: 100%; }
   #menu > .container {
     width: 200px; } }
 
 #jumb {
-  margin-top: -30px;
-  background: white; }
+  background: white;
+  margin-bottom: 0px; }
 
 .list-custom-button {
   text-align: left; }
@@ -30,5 +40,11 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex; }
+
+.alert {
+  margin-bottom: 0px; }
+
+.card {
+  margin-top: 30px; }
 
 /*# sourceMappingURL=style.css.map*/

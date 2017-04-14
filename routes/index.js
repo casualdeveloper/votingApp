@@ -8,6 +8,7 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     } else {
+        req.flash("error", "Please login first");
         res.redirect("/login");
     }
 }
@@ -38,7 +39,8 @@ router.post("/poll", isLoggedIn, function(req, res) {
 
     poll.create(data, (err, newPoll) => {
         if (err) {
-            console.log(err);
+            req.flash("error", "Oops something went wrong, please try again later");
+            res.redirect("back");
         } else {
             //Add author to the poll
             newPoll.author.id = req.user._id;
@@ -62,7 +64,7 @@ router.post("/poll", isLoggedIn, function(req, res) {
             });
         }
     });
-
+    req.flash("success", "new poll successfully created");
     // redirect will be used by ajax success function to change window.location (redirect)
     res.json({ status: 200, redirect: "/" });
 });
@@ -84,7 +86,8 @@ router.delete("/poll/:id", checkPollOwnership, function(req, res) {
     //delete poll from database
     poll.findByIdAndRemove(req.params.id, function(err) {
         if (err) {
-            res.redirect("/user/" + req.user._id);
+            req.flash("error", "Poll not found!");
+            res.redirect("back");
         } else {
             //delete poll from the list of all polls that user created 
             let objId = mongoose.Types.ObjectId(req.params.id);
@@ -95,19 +98,24 @@ router.delete("/poll/:id", checkPollOwnership, function(req, res) {
                     break;
                 }
             }
-            res.redirect("/user/" + req.user._id);
+            req.flash("success", "Successfully deleted");
+            res.redirect("back");
         }
     });
 });
 
 router.post("/pollVote/:id", function(req, res) {
     poll.findById(req.params.id, function(err, pollToUpdate) {
-
+        if (err) {
+            req.flash("error", "Poll not found");
+            res.redirect("back");
+        }
         let intIpAdress = dotToInt(req.ip);
         //addToSet checks if ip adress exists, if not adds it to the pollsArray
-        pollToUpdate.update({ $addToSet: { voters: intIpAdress } }, (err, results) => {
+        pollToUpdate.update({ $addToSet: { voters: intIpAdress } }, function(err, results) {
             if (err) {
-                console.log(err);
+                req.flash("error", "Failed to update poll, please try again later");
+                res.redirect("back");
             } else {
                 //if $addToSet inserted new ip adress into the array it return nModified = 1
                 if (results.nModified === 1) {
@@ -122,7 +130,8 @@ router.post("/pollVote/:id", function(req, res) {
                         res.redirect("/poll/" + req.params.id);
                     });
                 } else {
-                    res.send("YOU HAVE ALREADY VOTED :(");
+                    req.flash("error", "You can only vote once :(");
+                    res.redirect("back");
                 }
             }
         });
@@ -133,16 +142,19 @@ function checkPollOwnership(req, res, next) {
     if (req.isAuthenticated()) {
         poll.findById(req.params.id, function(err, foundPoll) {
             if (err) {
-                res.redirect("/user/" + foundPoll.author.id);
+                req.flash("error", "Poll not found!");
+                res.redirect("back");
             } else {
                 if (foundPoll.author.id.equals(req.user._id)) {
                     next();
                 } else {
-                    res.redirect("/user/" + foundPoll.author.id);
+                    req.flash("error", "Permission denied");
+                    res.redirect("back");
                 }
             }
         });
     } else {
+        req.flash("error", "Please login first!");
         res.redirect("/");
     }
 }
