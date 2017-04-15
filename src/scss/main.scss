@@ -40,10 +40,13 @@ body {
 }
 
 .list-custom-button {
+    text-align: left;
+}
+
+.list-custom-button-spacing {
     &:not(:last-child) {
         margin-bottom: 8px;
     }
-    text-align:left;
 }
 
 #myChart {

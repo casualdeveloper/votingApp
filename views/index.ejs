@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-block">
                 <% for(var i = 0; i < polls.length; i++){ %>
-                    <a href=<%= "/poll/" + polls[i]._id %> class="button button-block button-action button-jumbo list-custom-button">
+                    <a href=<%= "/poll/" + polls[i]._id %> class="button button-block button-action button-jumbo list-custom-button list-custom-button-spacing">
                         <%= polls[i].title %>
                     </a>
                 <% } %>

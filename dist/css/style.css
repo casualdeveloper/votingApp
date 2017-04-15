@@ -29,8 +29,9 @@ body {
 
 .list-custom-button {
   text-align: left; }
-  .list-custom-button:not(:last-child) {
-    margin-bottom: 8px; }
+
+.list-custom-button-spacing:not(:last-child) {
+  margin-bottom: 8px; }
 
 #myChart {
   max-height: 100%;
