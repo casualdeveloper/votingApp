@@ -10,7 +10,7 @@ router.get("/signup", function(req, res) {
 });
 
 router.post("/signup/uap", function(req, res) {
-    var newUser = new user({ username: req.body.username });
+    var newUser = new user({ username: req.body.username, profileName: req.body.username });
     user.register(newUser, req.body.password, function(err) {
         if (err) {
             req.flash("error", err.message);

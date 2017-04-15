@@ -11,7 +11,7 @@ var pollSchema = new mongoose.Schema({
             ref: "user",
             type: mongoose.Schema.Types.ObjectId
         },
-        username: String
+        name: String
     }
 });
 

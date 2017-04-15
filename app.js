@@ -63,8 +63,8 @@ passport.use(new passportTwitter({
 
                 if (!foundUser) {
                     foundUser = new user({
-                        username: profile.displayName,
-                        usingLocalStrategy: false,
+                        username: profile.id,
+                        profileName: profile.displayName,
                         externalAccounts: [{
                             provider: profile.provider,
                             uid: profile.id
