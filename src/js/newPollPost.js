@@ -1,7 +1,7 @@
 /* global $ */
-import { generateColor } from "./randomColor";
-
 let newPollForm = $("#newPollForm");
+
+import { getColors } from "./newPollOptions";
 
 newPollForm.on("submit", (e) => {
     //To prevent reload
@@ -18,12 +18,11 @@ newPollForm.on("submit", (e) => {
     }
 
     //Generate colors, data.length-1 here is to subtract title from length
-    let colors = generateColor(data.length - 1, "hex");
 
     data = {
         title: data[0].value,
         options: options,
-        colors: colors
+        colors: getColors()
     };
 
     //Send data

@@ -19,11 +19,21 @@
 
                     <div class="form-group" id="newPollOptions">
                         <label for="option1">Options:</label>
-                        <input class="form-control" placeholder="Option 1" name="option1">
-                        <input class="form-control" placeholder="Option 2" name="option2">
+                        <div class="new-poll-option d-flex">
+                            <div class="new-poll-option-colorBox-outer">
+                                <div class="new-poll-option-colorBox-inner" name="color1"></div>
+                            </div>
+                            <input class="form-control" placeholder="Option 1" name="option1">
+                        </div>
+                        <div class="new-poll-option d-flex">
+                            <div class="new-poll-option-colorBox-outer" >
+                                <div class="new-poll-option-colorBox-inner" name="color2"></div>
+                            </div>
+                            <input class="form-control" placeholder="Option 2" name="option2">
+                        </div>
                     </div>
 
-                    <button class="btn btn btn-primary mr-auto" type="submit">Submit</button>
+                    <button class="btn btn-primary mr-auto" type="submit">Submit</button>
                     
                 </form>
             </div>

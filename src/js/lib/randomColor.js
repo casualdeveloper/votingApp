@@ -37,4 +37,4 @@ function fix1CharString(a) {
     return (a.length === 1) ? a + "0" : a;
 }
 
-export { generateColor }
+export { generateColor };

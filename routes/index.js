@@ -114,10 +114,14 @@ router.post("/pollVote/:id", function(req, res) {
         //addToSet checks if ip adress exists, if not adds it to the pollsArray
         pollToUpdate.update({ $addToSet: { voters: intIpAdress } }, function(err, results) {
             if (err) {
-                req.flash("error", "Failed to update poll, please try again later");
+                req.flash("error", "Oops something went wrong, please try again later:(");
                 res.redirect("back");
             } else {
-                //if $addToSet inserted new ip adress into the array it return nModified = 1
+                if (!results) {
+                    req.flash("error", "Poll not found!");
+                    return res.redirect("back");
+                }
+                //if $addToSet inserted new ip adress into the array it returns nModified = 1
                 if (results.nModified === 1) {
                     //position gained from chosen option
                     let position = parseInt(req.body.option);
@@ -127,7 +131,8 @@ router.post("/pollVote/:id", function(req, res) {
 
                     pollToUpdate.update({ $inc: obj }, { upsert: true, safe: true }, (err) => {
                         if (err) console.log(err);
-                        res.redirect("/poll/" + req.params.id);
+                        req.flash("success", "Thanks for voting:)");
+                        res.redirect("back");
                     });
                 } else {
                     req.flash("error", "You can only vote once :(");
@@ -142,9 +147,13 @@ function checkPollOwnership(req, res, next) {
     if (req.isAuthenticated()) {
         poll.findById(req.params.id, function(err, foundPoll) {
             if (err) {
-                req.flash("error", "Poll not found!");
+                req.flash("error", "Oops something went wrong, please try again later:(");
                 res.redirect("back");
             } else {
+                if (!foundPoll) {
+                    req.flash("error", "Poll not found!");
+                    return res.redirect("back");
+                }
                 if (foundPoll.author.id.equals(req.user._id)) {
                     next();
                 } else {

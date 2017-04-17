@@ -4,6 +4,21 @@ body {
     background: $BG_Color;
 }
 
+@mixin absoluteWidth($width) {
+    min-width: $width;
+    max-width: $width;
+}
+
+@mixin absoluteHeight($height) {
+    min-height: $height;
+    max-height: $height;
+}
+
+@mixin absoluteSize($width, $height) {
+    @include absoluteWidth($width);
+    @include absoluteHeight($height);
+}
+
 #menu {
     max-height: $NAV_H;
 }
@@ -64,4 +79,42 @@ body {
 
 .card {
     margin-top: 30px;
+}
+
+.new-poll-option-colorBox-outer {
+    @include absoluteSize(38px, 38px);
+    border: 1px solid rgba(50, 50, 50, 0.5);
+    border-radius: 4px;
+    background: white;
+    margin-right: 2px;
+    cursor: pointer;
+}
+
+.new-poll-option-colorBox-inner {
+    @include absoluteSize(28px, 28px);
+    margin-left: 4px;
+    margin-top: 4px;
+    border-radius: 4px;
+    background: rgb(120, 60, 60);
+    font-size: 0;
+}
+
+.new-poll-option {
+    margin-bottom: 5px;
+}
+
+.color-input-box {
+    visibility: hidden;
+    border: 1px solid rgba(50, 50, 50, 0.5);
+    border-radius: 4px;
+    width: auto;
+    background: white;
+    position: fixed;
+    z-index: 1031;
+    left: 50%;
+    top: 50%;
+    padding: 5px;
+    &>:first-child {
+        margin-bottom: 5px;
+    }
 }
