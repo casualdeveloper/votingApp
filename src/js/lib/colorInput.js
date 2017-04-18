@@ -1,5 +1,7 @@
 /* global $ */
 
+import { normalizeToHex } from "./colorGenerator";
+
 let colorInputBox;
 
 let colorInputBoxString = "<div class=\"color-input-box w-25\"><input class=\"form-control\" id=\"colorInput\"><button class=\"btn btn-block btn-primary\">Submit</button></div>";
@@ -10,12 +12,16 @@ class colorInput {
         bind();
         this.inputVar = colorInputBox.children("input");
         this.state = false;
+        this.submitButton = colorInputBox.children("button");
+        this.prevColor; // prevColor just a placeholder for older color if "error" would occur when typing in new one
+
     }
     setPositionY(y) {
         if (!colorInputBox) {
             return null;
         }
         colorInputBox.css("top", y);
+
     }
     activate(color) {
         if (this.state) {
@@ -23,6 +29,7 @@ class colorInput {
             return null;
         }
 
+        this.prevColor = color;
         this.changeInputVal(color);
         colorInputBox.show();
         this.state = true;
@@ -36,6 +43,23 @@ class colorInput {
     }
     changeInputVal(val) {
         this.inputVar.val(val);
+    }
+    get getColor() {
+        let tempColor = this.inputVar.val();
+
+        //if used weird value normalizeToHex should return null
+
+        tempColor = normalizeToHex(tempColor);
+        if (!tempColor)
+            tempColor = this.prevColor;
+
+        return tempColor;
+    }
+    get getSubmitButton() {
+        return this.submitButton;
+    }
+    get getState() {
+        return this.state;
     }
 }
 

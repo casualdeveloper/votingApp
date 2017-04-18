@@ -1,17 +1,29 @@
 /* global $ */
 
-import { generateColor } from "./lib/randomColor";
+import { generateColor } from "./lib/colorGenerator";
 import colorInput from "./lib/colorInput";
 
 let newColorInput;
 
 let options = 2;
 
+// store index of color that input will change
+let indexOfActiveColor;
+
 let addOptionBtn = $("#addOptionBtn");
 let removeOptionBtn = $("#removeOptionBtn");
 let newPollOptions = $("#newPollOptions");
 let newPollOptionsColors = $(".new-poll-option-colorBox-inner");
 
+//temp storage for updating color in css
+let lastUpdatedBox;
+
+
+//ref to call submit button for color input
+let colorInputSubmitButton;
+
+
+//"RemoveOption" state
 let disabled = true;
 
 //main array of all colors
@@ -22,8 +34,9 @@ let _COLORS = [];
     if (newPollOptionsColors.length <= 0)
         return null;
 
-    newColorInput = new colorInput();
-    bindSetup();
+    newColorInput = new colorInput(); //create(still hidden) for user color input box 
+    colorInputSubmitButton = newColorInput.getSubmitButton; // set reference for color input submit button
+    bindSetup(); //bind events
 
     let colors = generateColor(newPollOptionsColors.length, "hex");
     _COLORS = colors;
@@ -35,6 +48,12 @@ let _COLORS = [];
 })();
 
 //Add option when creating new poll
+/*
+---->incr options
+---->generate new color
+---->add new option
+---->enable "RemoveOption" button
+*/
 addOptionBtn.on("click", function() {
     options++;
     let tempColor = generateColor(1, "hex");
@@ -48,6 +67,11 @@ addOptionBtn.on("click", function() {
     }
 });
 //Remove option when creating new poll
+/*
+---->decrease options (can't get lower than 2)
+---->remove latest option and color
+---->disable "RemoveOption" button if only 2 options are left
+*/
 removeOptionBtn.on("click", function() {
     if (options > 2) {
         options--;
@@ -75,25 +99,49 @@ function generateNewOptionString(color, num = options) {
         "</div>";
 }
 
+//making color input box invisible, setting up and applying any color changes
+function disableColorInput(val) {
+    newColorInput.disable();
+    _COLORS[indexOfActiveColor] = val;
+    updateColorBox(indexOfActiveColor);
+    indexOfActiveColor = null;
+}
+
+function updateColorBox(index) {
+    $(lastUpdatedBox).css("background", _COLORS[index]);
+}
+
 function bindSetup() {
     $("#newPollOptions").on("click", ".new-poll-option-colorBox-outer", function(e) {
 
-        let tempIndex = $(e.currentTarget).children()[0].dataset.colorNumber;
-
+        //set ref for the latest color box (used to update color in css via updateColorBox function)
+        lastUpdatedBox = $(e.currentTarget).children()[0];
+        //getting index and activating color box
+        let tempIndex = lastUpdatedBox.dataset.colorNumber;
+        indexOfActiveColor = tempIndex;
         newColorInput.activate(_COLORS[tempIndex]);
 
-
+        //setting position for color input box
         let positionTop = $(e.currentTarget).position().top;
         newColorInput.setPositionY(positionTop);
 
         e.stopPropagation();
     });
 
+
+    //bind event for submit button inside color input box
+    colorInputSubmitButton.on("click", function() {
+        if (newColorInput.getState) {
+            disableColorInput(newColorInput.getColor);
+        }
+    });
+    //if clicked anythere else than color input box achieves same effect as submit button
     $(document).on("click", function(e) {
+        if (newColorInput.getState) {
+            disableColorInput(newColorInput.getColor);
+            e.stopPropagation();
+        }
 
-        newColorInput.disable();
-
-        e.stopPropagation();
     });
 }
 

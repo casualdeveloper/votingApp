@@ -1,9 +1,10 @@
-webpackJsonp([0],[
-/* 0 */
+webpackJsonp([0],{
+
+/***/ 0:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_randomColor__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_colorGenerator__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_colorInput__ = __webpack_require__(13);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getColors; });
 /* global $ */
@@ -15,11 +16,21 @@ var newColorInput = void 0;
 
 var options = 2;
 
+// store index of color that input will change
+var indexOfActiveColor = void 0;
+
 var addOptionBtn = $("#addOptionBtn");
 var removeOptionBtn = $("#removeOptionBtn");
 var newPollOptions = $("#newPollOptions");
 var newPollOptionsColors = $(".new-poll-option-colorBox-inner");
 
+//temp storage for updating color in css
+var lastUpdatedBox = void 0;
+
+//ref to call submit button for color input
+var colorInputSubmitButton = void 0;
+
+//"RemoveOption" state
 var disabled = true;
 
 //main array of all colors
@@ -29,10 +40,11 @@ var _COLORS = [];
 (function () {
     if (newPollOptionsColors.length <= 0) return null;
 
-    newColorInput = new __WEBPACK_IMPORTED_MODULE_1__lib_colorInput__["a" /* default */]();
-    bindSetup();
+    newColorInput = new __WEBPACK_IMPORTED_MODULE_1__lib_colorInput__["a" /* default */](); //create(still hidden) for user color input box 
+    colorInputSubmitButton = newColorInput.getSubmitButton; // set reference for color input submit button
+    bindSetup(); //bind events
 
-    var colors = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__lib_randomColor__["a" /* generateColor */])(newPollOptionsColors.length, "hex");
+    var colors = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__lib_colorGenerator__["a" /* generateColor */])(newPollOptionsColors.length, "hex");
     _COLORS = colors;
 
     for (var i = 0; i < newPollOptionsColors.length; i++) {
@@ -41,9 +53,15 @@ var _COLORS = [];
 })();
 
 //Add option when creating new poll
+/*
+---->incr options
+---->generate new color
+---->add new option
+---->enable "RemoveOption" button
+*/
 addOptionBtn.on("click", function () {
     options++;
-    var tempColor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__lib_randomColor__["a" /* generateColor */])(1, "hex");
+    var tempColor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__lib_colorGenerator__["a" /* generateColor */])(1, "hex");
     _COLORS.push(tempColor);
 
     newPollOptions.append(generateNewOptionString(tempColor));
@@ -54,6 +72,11 @@ addOptionBtn.on("click", function () {
     }
 });
 //Remove option when creating new poll
+/*
+---->decrease options (can't get lower than 2)
+---->remove latest option and color
+---->disable "RemoveOption" button if only 2 options are left
+*/
 removeOptionBtn.on("click", function () {
     if (options > 2) {
         options--;
@@ -77,31 +100,55 @@ function generateNewOptionString(color) {
     return "<div class=\"new-poll-option d-flex\">" + "<div class=\"new-poll-option-colorBox-outer\">" + "<div class=\"new-poll-option-colorBox-inner\" data-color-number=" + (num - 1) + " style=\"background:" + color + "\">" + color + "</div>" + "</div>" + "<input class=\"form-control\" placeholder=\"Option " + num + "\" name=\"option" + num + "\">" + "</div>";
 }
 
+//making color input box invisible, setting up and applying any color changes
+function disableColorInput(val) {
+    newColorInput.disable();
+    _COLORS[indexOfActiveColor] = val;
+    updateColorBox(indexOfActiveColor);
+    indexOfActiveColor = null;
+}
+
+function updateColorBox(index) {
+    $(lastUpdatedBox).css("background", _COLORS[index]);
+}
+
 function bindSetup() {
     $("#newPollOptions").on("click", ".new-poll-option-colorBox-outer", function (e) {
 
-        var tempIndex = $(e.currentTarget).children()[0].dataset.colorNumber;
-
+        //set ref for the latest color box (used to update color in css via updateColorBox function)
+        lastUpdatedBox = $(e.currentTarget).children()[0];
+        //getting index and activating color box
+        var tempIndex = lastUpdatedBox.dataset.colorNumber;
+        indexOfActiveColor = tempIndex;
         newColorInput.activate(_COLORS[tempIndex]);
 
+        //setting position for color input box
         var positionTop = $(e.currentTarget).position().top;
         newColorInput.setPositionY(positionTop);
 
         e.stopPropagation();
     });
 
+    //bind event for submit button inside color input box
+    colorInputSubmitButton.on("click", function () {
+        if (newColorInput.getState) {
+            disableColorInput(newColorInput.getColor);
+        }
+    });
+    //if clicked anythere else than color input box achieves same effect as submit button
     $(document).on("click", function (e) {
-
-        newColorInput.disable();
-
-        e.stopPropagation();
+        if (newColorInput.getState) {
+            disableColorInput(newColorInput.getColor);
+            e.stopPropagation();
+        }
     });
 }
 
 
 
 /***/ }),
-/* 1 */
+
+/***/ 1:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -151,7 +198,122 @@ newPollForm.on("submit", function (e) {
 });
 
 /***/ }),
-/* 2 */
+
+/***/ 13:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__colorGenerator__ = __webpack_require__(20);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/* global $ */
+
+
+
+var colorInputBox = void 0;
+
+var colorInputBoxString = "<div class=\"color-input-box w-25\"><input class=\"form-control\" id=\"colorInput\"><button class=\"btn btn-block btn-primary\">Submit</button></div>";
+
+var colorInput = function () {
+    function colorInput() {
+        _classCallCheck(this, colorInput);
+
+        colorInputBox = $(colorInputBoxString).appendTo("body").hide();
+        bind();
+        this.inputVar = colorInputBox.children("input");
+        this.state = false;
+        this.submitButton = colorInputBox.children("button");
+        this.prevColor; // prevColor just a placeholder for older color if "error" would occur when typing in new one
+    }
+
+    _createClass(colorInput, [{
+        key: "setPositionY",
+        value: function setPositionY(y) {
+            if (!colorInputBox) {
+                return null;
+            }
+            colorInputBox.css("top", y);
+        }
+    }, {
+        key: "activate",
+        value: function activate(color) {
+            if (this.state) {
+                this.changeInputVal(color);
+                return null;
+            }
+
+            this.prevColor = color;
+            this.changeInputVal(color);
+            colorInputBox.show();
+            this.state = true;
+        }
+    }, {
+        key: "disable",
+        value: function disable() {
+            if (!this.state) return null;
+
+            colorInputBox.hide();
+            this.state = false;
+        }
+    }, {
+        key: "changeInputVal",
+        value: function changeInputVal(val) {
+            this.inputVar.val(val);
+        }
+    }, {
+        key: "getColor",
+        get: function get() {
+            var tempColor = this.inputVar.val();
+
+            //if used weird value normalizeToHex should return null
+
+            tempColor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__colorGenerator__["b" /* normalizeToHex */])(tempColor);
+            if (!tempColor) tempColor = this.prevColor;
+
+            return tempColor;
+        }
+    }, {
+        key: "getSubmitButton",
+        get: function get() {
+            return this.submitButton;
+        }
+    }, {
+        key: "getState",
+        get: function get() {
+            return this.state;
+        }
+    }]);
+
+    return colorInput;
+}();
+
+function bind() {
+    colorInputBox.on("click", function (e) {
+        e.stopPropagation();
+    });
+}
+
+/* harmony default export */ __webpack_exports__["a"] = colorInput;
+
+/***/ }),
+
+/***/ 15:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__showChart__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__newPollOptions__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__newPollPost__ = __webpack_require__(1);
+
+
+
+
+/***/ }),
+
+/***/ 2:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -186,92 +348,13 @@ newPollForm.on("submit", function (e) {
 })();
 
 /***/ }),
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/* global $ */
-
-var colorInputBox = void 0;
-
-var colorInputBoxString = "<div class=\"color-input-box w-25\"><input class=\"form-control\" id=\"colorInput\"><button class=\"btn btn-block btn-primary\">Submit</button></div>";
-
-var colorInput = function () {
-    function colorInput() {
-        _classCallCheck(this, colorInput);
-
-        colorInputBox = $(colorInputBoxString).appendTo("body").hide();
-        bind();
-        this.inputVar = colorInputBox.children("input");
-        this.state = false;
-    }
-
-    _createClass(colorInput, [{
-        key: "setPositionY",
-        value: function setPositionY(y) {
-            if (!colorInputBox) {
-                return null;
-            }
-            colorInputBox.css("top", y);
-        }
-    }, {
-        key: "activate",
-        value: function activate(color) {
-            if (this.state) {
-                this.changeInputVal(color);
-                return null;
-            }
-
-            this.changeInputVal(color);
-            colorInputBox.show();
-            this.state = true;
-        }
-    }, {
-        key: "disable",
-        value: function disable() {
-            if (!this.state) return null;
-
-            colorInputBox.hide();
-            this.state = false;
-        }
-    }, {
-        key: "changeInputVal",
-        value: function changeInputVal(val) {
-            this.inputVar.val(val);
-        }
-    }]);
-
-    return colorInput;
-}();
-
-function bind() {
-    colorInputBox.on("click", function (e) {
-        e.stopPropagation();
-    });
-}
-
-/* harmony default export */ __webpack_exports__["a"] = colorInput;
-
-/***/ }),
-/* 14 */
+/***/ 20:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return generateColor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return normalizeToHex; });
 // n - amount of colors to make
 function generateColor() {
     var n = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
@@ -308,26 +391,63 @@ function generateColor() {
     return n === 1 ? Arr[0] : Arr;
 }
 
-// Checks if hex string has only 1 char if it does adds 0 to the end
-function fix1CharString(a) {
-    return a.length === 1 ? a + "0" : a;
+function rgbToHex(str) {
+    var regExp = /[^0-9,]/gi; //Match everyhting except numbers and ","
+    str = str.replace(regExp, "");
+
+    var strArr = str.split(",");
+    for (var i = 0; i < 3; i++) {
+        var strInt = parseInt(strArr[i]);
+        console.log(strInt);
+        if (strInt > 255 || strInt < 0) {
+            return null;
+        }
+        strArr[i] = fix1CharString(strInt.toString(16));
+        console.log(strArr[i]);
+    }
+
+    return "#" + strArr[0] + strArr[1] + strArr[2];
 }
 
+/*
+Removes hash, symbols, whitespace
+ if length of string is 3 of 6 string is "approved" and returned as valid Hex color
+ if not returns null
+*/
+function checkHex(str) {
+    //removes hash and whitespace
+    str = str.replace(/[#\s]+/g, "");
 
+    //remove every symbol
+    str = str.replace(/[^A-Za-z0-9]+/g, "");
+    if (str.length === 3 || str.length === 6) {
+        return "#" + str;
+    } else {
+        return null;
+    }
+}
+//changes rgb/rgba to hex besides checks if users approved hex is valid.
+function normalizeToHex(str) {
+    var regExpMatchWhitespace = /\s+/g;
+    str = str.replace(regExpMatchWhitespace, "");
+    if (str.substr(0, 3) === "rgb") {
+        return rgbToHex(str);
+    } else if (str.length >= 3 && str.length <= 7) {
+        return checkHex(str);
+    } else {
+        return null;
+    }
+}
 
-/***/ }),
-/* 15 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+// Checks if hex string has only 1 char and if so adds 0 to the front
+function fix1CharString(a) {
+    return a.length === 1 ? "0" + a : a;
+}
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__showChart__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__newPollOptions__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__newPollPost__ = __webpack_require__(1);
-
-
+/* unused harmony default export */ var _unused_webpack_default_export = generateColor;
 
 
 /***/ })
-],[15]);
+
+},[15]);
 //# sourceMappingURL=app.js.map
