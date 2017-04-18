@@ -104,7 +104,8 @@ body {
 }
 
 .color-input-box {
-    visibility: hidden;
+    transform: translateX(-50%);
+    margin-top: -10px;
     border: 1px solid rgba(50, 50, 50, 0.5);
     border-radius: 4px;
     width: auto;

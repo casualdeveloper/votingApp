@@ -74,7 +74,9 @@ body {
   margin-bottom: 5px; }
 
 .color-input-box {
-  visibility: hidden;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  margin-top: -10px;
   border: 1px solid rgba(50, 50, 50, 0.5);
   border-radius: 4px;
   width: auto;

@@ -1,11 +1,10 @@
-webpackJsonp([0],{
-
-/***/ 0:
+webpackJsonp([0],[
+/* 0 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_randomColor__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_colorInput__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_randomColor__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_colorInput__ = __webpack_require__(13);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getColors; });
 /* global $ */
 
@@ -19,29 +18,24 @@ var options = 2;
 var addOptionBtn = $("#addOptionBtn");
 var removeOptionBtn = $("#removeOptionBtn");
 var newPollOptions = $("#newPollOptions");
+var newPollOptionsColors = $(".new-poll-option-colorBox-inner");
 
 var disabled = true;
 
+//main array of all colors
 var _COLORS = [];
 
-function generateNewOptionString(color) {
-    var num = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : options;
-
-    return "<div class=\"new-poll-option d-flex\">" + "<div class=\"new-poll-option-colorBox-outer\">" + "<div class=\"new-poll-option-colorBox-inner\" name=\"color" + num + "\" style=\"background:" + color + "\">" + color + "</div>" + "</div>" + "<input class=\"form-control\" placeholder=\"Option " + num + "\" name=\"option" + num + "\">" + "</div>";
-}
-
-var newPollOptionsColors = $(".new-poll-option-colorBox-inner");
-
-newPollOptionsColors.on("click", function () {
-    newColorInput.activate();
-});
-
+//Check if user is on new poll page and if so setup base colors(first 2), initialize color input box and setup bindings
 (function () {
     if (newPollOptionsColors.length <= 0) return null;
 
     newColorInput = new __WEBPACK_IMPORTED_MODULE_1__lib_colorInput__["a" /* default */]();
+
+    bindSetup();
+
     var colors = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__lib_randomColor__["a" /* generateColor */])(newPollOptionsColors.length, "hex");
     _COLORS = colors;
+
     for (var i = 0; i < newPollOptionsColors.length; i++) {
         $(newPollOptionsColors[i]).css("background", colors[i]).text(colors[i]);
     }
@@ -52,7 +46,9 @@ addOptionBtn.on("click", function () {
     options++;
     var tempColor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__lib_randomColor__["a" /* generateColor */])(1, "hex");
     _COLORS.push(tempColor);
+
     newPollOptions.append(generateNewOptionString(tempColor));
+
     if (disabled) {
         disabled = false;
         removeOptionBtn.attr("disabled", false);
@@ -64,6 +60,7 @@ removeOptionBtn.on("click", function () {
         options--;
         newPollOptions.children().last().remove();
         _COLORS.pop();
+
         if (options == 2) {
             disabled = true;
             removeOptionBtn.attr("disabled", true);
@@ -75,11 +72,35 @@ function getColors() {
     return _COLORS;
 }
 
+function generateNewOptionString(color) {
+    var num = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : options;
+
+    return "<div class=\"new-poll-option d-flex\">" + "<div class=\"new-poll-option-colorBox-outer\">" + "<div class=\"new-poll-option-colorBox-inner\" data-color-number=" + (num - 1) + " style=\"background:" + color + "\">" + color + "</div>" + "</div>" + "<input class=\"form-control\" placeholder=\"Option " + num + "\" name=\"option" + num + "\">" + "</div>";
+}
+
+function bindSetup() {
+    $("#newPollOptions").on("click", ".new-poll-option-colorBox-outer", function (e) {
+
+        newColorInput.activate();
+
+        var positionTop = $(e.currentTarget).position().top;
+        newColorInput.setPositionY(positionTop);
+
+        e.stopPropagation();
+    });
+
+    $(document).on("click", function (e) {
+
+        newColorInput.disable();
+
+        e.stopPropagation();
+    });
+}
+
 
 
 /***/ }),
-
-/***/ 1:
+/* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -129,22 +150,113 @@ newPollForm.on("submit", function (e) {
 });
 
 /***/ }),
-
-/***/ 14:
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__showChart__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__newPollOptions__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__newPollPost__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js_dist_Chart_min_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js_dist_Chart_min_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_chart_js_dist_Chart_min_js__);
+/* global poll */
 
 
 
+(function () {
+
+    var ctx = document.getElementById("myChart");
+    //check if myChart exists (it only exists in page that shows chart)
+    if (ctx != null) {
+
+        var jsPoll = poll;
+
+        var data = {
+            labels: jsPoll.options,
+            datasets: [{
+                data: jsPoll.results,
+                backgroundColor: jsPoll.colors,
+                hoverBackgroundColor: jsPoll.colors
+            }]
+        };
+        new __WEBPACK_IMPORTED_MODULE_0_chart_js_dist_Chart_min_js___default.a(ctx.getContext("2d"), {
+            type: "doughnut",
+            data: data,
+            options: {}
+        });
+    }
+})();
 
 /***/ }),
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/***/ 19:
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/* global $ */
+
+var colorInputBox = void 0;
+
+var colorInputBoxString = "<div class=\"color-input-box w-25\"><input class=\"form-control\" placeholder\"#fff / rgb(255,255,255)\" id=\"colorInput\"><button class=\"btn btn-block btn-primary\">Submit</button></div>";
+
+var colorInput = function () {
+    function colorInput() {
+        _classCallCheck(this, colorInput);
+
+        colorInputBox = $(colorInputBoxString).appendTo("body").hide();
+        bind();
+        this.state = false;
+    }
+
+    _createClass(colorInput, [{
+        key: "setPositionY",
+        value: function setPositionY(y) {
+            if (!colorInputBox) {
+                return null;
+            }
+            colorInputBox.css("top", y);
+        }
+    }, {
+        key: "activate",
+        value: function activate() {
+            if (this.state) return null;
+
+            colorInputBox.show();
+            this.state = true;
+        }
+    }, {
+        key: "disable",
+        value: function disable() {
+            if (!this.state) return null;
+
+            colorInputBox.hide();
+            this.state = false;
+        }
+    }]);
+
+    return colorInput;
+}();
+
+function bind() {
+    colorInputBox.on("click", function (e) {
+        e.stopPropagation();
+    });
+}
+
+/* harmony default export */ __webpack_exports__["a"] = colorInput;
+
+/***/ }),
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -193,81 +305,18 @@ function fix1CharString(a) {
 
 
 /***/ }),
-
-/***/ 2:
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js_dist_Chart_min_js__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js_dist_Chart_min_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_chart_js_dist_Chart_min_js__);
-/* global poll */
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__showChart__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__newPollOptions__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__newPollPost__ = __webpack_require__(1);
 
 
 
-(function () {
-
-    var ctx = document.getElementById("myChart");
-    //check if myChart exists (it only exists in page that shows chart)
-    if (ctx != null) {
-
-        var jsPoll = poll;
-
-        var data = {
-            labels: jsPoll.options,
-            datasets: [{
-                data: jsPoll.results,
-                backgroundColor: jsPoll.colors,
-                hoverBackgroundColor: jsPoll.colors
-            }]
-        };
-        new __WEBPACK_IMPORTED_MODULE_0_chart_js_dist_Chart_min_js___default.a(ctx.getContext("2d"), {
-            type: "doughnut",
-            data: data,
-            options: {}
-        });
-    }
-})();
-
-/***/ }),
-
-/***/ 20:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/* global $ */
-
-var colorInputBox = void 0;
-
-var colorInput = function () {
-    function colorInput() {
-        _classCallCheck(this, colorInput);
-
-        $("body").append("<div class=\"color-input-box\"><input class=\"form-control\" id=\"colorInput\"><button class=\"btn btn-block btn-primary\">Submit</button></div>");
-        colorInputBox = $(".color-input-box");
-    }
-
-    _createClass(colorInput, [{
-        key: "activate",
-        value: function activate() {
-            colorInputBox.css("visibility", "visible");
-        }
-    }, {
-        key: "disable",
-        value: function disable() {
-            colorInputBox.css("visibility", "hidden");
-        }
-    }]);
-
-    return colorInput;
-}();
-
-/* harmony default export */ __webpack_exports__["a"] = colorInput;
 
 /***/ })
-
-},[14]);
+],[15]);
 //# sourceMappingURL=app.js.map

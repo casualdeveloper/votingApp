@@ -2,17 +2,40 @@
 
 let colorInputBox;
 
+let colorInputBoxString = "<div class=\"color-input-box w-25\"><input class=\"form-control\" placeholder\"#fff / rgb(255,255,255)\" id=\"colorInput\"><button class=\"btn btn-block btn-primary\">Submit</button></div>";
+
 class colorInput {
     constructor() {
-        $("body").append("<div class=\"color-input-box\"><input class=\"form-control\" id=\"colorInput\"><button class=\"btn btn-block btn-primary\">Submit</button></div>");
-        colorInputBox = $(".color-input-box");
+        colorInputBox = $(colorInputBoxString).appendTo("body").hide();
+        bind();
+        this.state = false;
+    }
+    setPositionY(y) {
+        if (!colorInputBox) {
+            return null;
+        }
+        colorInputBox.css("top", y);
     }
     activate() {
-        colorInputBox.css("visibility", "visible");
+        if (this.state)
+            return null;
+
+        colorInputBox.show();
+        this.state = true;
     }
     disable() {
-        colorInputBox.css("visibility", "hidden");
+        if (!this.state)
+            return null;
+
+        colorInputBox.hide();
+        this.state = false;
     }
+}
+
+function bind() {
+    colorInputBox.on("click", function(e) {
+        e.stopPropagation();
+    });
 
 }
 
