@@ -2,12 +2,13 @@
 
 let colorInputBox;
 
-let colorInputBoxString = "<div class=\"color-input-box w-25\"><input class=\"form-control\" placeholder\"#fff / rgb(255,255,255)\" id=\"colorInput\"><button class=\"btn btn-block btn-primary\">Submit</button></div>";
+let colorInputBoxString = "<div class=\"color-input-box w-25\"><input class=\"form-control\" id=\"colorInput\"><button class=\"btn btn-block btn-primary\">Submit</button></div>";
 
 class colorInput {
     constructor() {
         colorInputBox = $(colorInputBoxString).appendTo("body").hide();
         bind();
+        this.inputVar = colorInputBox.children("input");
         this.state = false;
     }
     setPositionY(y) {
@@ -16,10 +17,13 @@ class colorInput {
         }
         colorInputBox.css("top", y);
     }
-    activate() {
-        if (this.state)
+    activate(color) {
+        if (this.state) {
+            this.changeInputVal(color);
             return null;
+        }
 
+        this.changeInputVal(color);
         colorInputBox.show();
         this.state = true;
     }
@@ -29,6 +33,9 @@ class colorInput {
 
         colorInputBox.hide();
         this.state = false;
+    }
+    changeInputVal(val) {
+        this.inputVar.val(val);
     }
 }
 

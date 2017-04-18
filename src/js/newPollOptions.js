@@ -23,7 +23,6 @@ let _COLORS = [];
         return null;
 
     newColorInput = new colorInput();
-
     bindSetup();
 
     let colors = generateColor(newPollOptionsColors.length, "hex");
@@ -36,7 +35,7 @@ let _COLORS = [];
 })();
 
 //Add option when creating new poll
-addOptionBtn.on("click", () => {
+addOptionBtn.on("click", function() {
     options++;
     let tempColor = generateColor(1, "hex");
     _COLORS.push(tempColor);
@@ -49,7 +48,7 @@ addOptionBtn.on("click", () => {
     }
 });
 //Remove option when creating new poll
-removeOptionBtn.on("click", () => {
+removeOptionBtn.on("click", function() {
     if (options > 2) {
         options--;
         newPollOptions.children().last().remove();
@@ -79,7 +78,10 @@ function generateNewOptionString(color, num = options) {
 function bindSetup() {
     $("#newPollOptions").on("click", ".new-poll-option-colorBox-outer", function(e) {
 
-        newColorInput.activate();
+        let tempIndex = $(e.currentTarget).children()[0].dataset.colorNumber;
+
+        newColorInput.activate(_COLORS[tempIndex]);
+
 
         let positionTop = $(e.currentTarget).position().top;
         newColorInput.setPositionY(positionTop);

@@ -30,7 +30,6 @@ var _COLORS = [];
     if (newPollOptionsColors.length <= 0) return null;
 
     newColorInput = new __WEBPACK_IMPORTED_MODULE_1__lib_colorInput__["a" /* default */]();
-
     bindSetup();
 
     var colors = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__lib_randomColor__["a" /* generateColor */])(newPollOptionsColors.length, "hex");
@@ -81,7 +80,9 @@ function generateNewOptionString(color) {
 function bindSetup() {
     $("#newPollOptions").on("click", ".new-poll-option-colorBox-outer", function (e) {
 
-        newColorInput.activate();
+        var tempIndex = $(e.currentTarget).children()[0].dataset.colorNumber;
+
+        newColorInput.activate(_COLORS[tempIndex]);
 
         var positionTop = $(e.currentTarget).position().top;
         newColorInput.setPositionY(positionTop);
@@ -207,7 +208,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var colorInputBox = void 0;
 
-var colorInputBoxString = "<div class=\"color-input-box w-25\"><input class=\"form-control\" placeholder\"#fff / rgb(255,255,255)\" id=\"colorInput\"><button class=\"btn btn-block btn-primary\">Submit</button></div>";
+var colorInputBoxString = "<div class=\"color-input-box w-25\"><input class=\"form-control\" id=\"colorInput\"><button class=\"btn btn-block btn-primary\">Submit</button></div>";
 
 var colorInput = function () {
     function colorInput() {
@@ -215,6 +216,7 @@ var colorInput = function () {
 
         colorInputBox = $(colorInputBoxString).appendTo("body").hide();
         bind();
+        this.inputVar = colorInputBox.children("input");
         this.state = false;
     }
 
@@ -228,9 +230,13 @@ var colorInput = function () {
         }
     }, {
         key: "activate",
-        value: function activate() {
-            if (this.state) return null;
+        value: function activate(color) {
+            if (this.state) {
+                this.changeInputVal(color);
+                return null;
+            }
 
+            this.changeInputVal(color);
             colorInputBox.show();
             this.state = true;
         }
@@ -241,6 +247,11 @@ var colorInput = function () {
 
             colorInputBox.hide();
             this.state = false;
+        }
+    }, {
+        key: "changeInputVal",
+        value: function changeInputVal(val) {
+            this.inputVar.val(val);
         }
     }]);
 
