@@ -9,8 +9,10 @@
             <div class="card-block">
                 <div class="row no-gutters justify-content-around">
                     <% for(var i = 0; i < polls.length; i++){ %>
-                        <% var a = (i==polls.length-1 && (i+1)%2 !== 0)?"col-md-12":"col-md-6" %>
-                        <div class="<%= a  %> list-custom-button-spacing">
+                        <% var a = (i==polls.length-1 && (i+1)%2 !== 0)?"col-md-12 ":"col-md-6 " %>
+                        <% var b = (polls.length%2===0 && i>=polls.length-2)?"":"list-custom-button-spacing" %>
+                        <% a = a+b %>
+                        <div class="<%= a %>">
                             <a href=<%= "/poll/" + polls[i]._id %> class="button button-block button-jumbo list-custom-button list-custom-button-shadow mx-1">
                                 <%= polls[i].title %>
                             </a>

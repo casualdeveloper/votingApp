@@ -69,10 +69,8 @@ body {
   max-width: 38px;
   min-height: 38px;
   max-height: 38px;
-  border: 1px solid rgba(50, 50, 50, 0.5);
-  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
   background: white;
-  margin-right: 2px;
   cursor: pointer; }
 
 .new-poll-option-colorBox-inner {
@@ -86,15 +84,11 @@ body {
   background: #783c3c;
   font-size: 0; }
 
-.new-poll-option {
-  margin-bottom: 5px; }
-
 .color-input-box {
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
   margin-top: -10px;
-  border: 1px solid rgba(50, 50, 50, 0.5);
-  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
   width: auto;
   background: white;
   position: fixed;
@@ -107,5 +101,12 @@ body {
 
 .fa {
   vertical-align: middle; }
+
+input {
+  border-radius: 0px !important; }
+
+.custom-submit-button {
+  border-radius: 0px !important;
+  box-shadow: 0px 1px 2px 0px #a6a6a6; }
 
 /*# sourceMappingURL=style.css.map*/

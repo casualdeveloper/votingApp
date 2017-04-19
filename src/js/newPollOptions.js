@@ -91,8 +91,8 @@ function getColors() {
 }
 
 function generateNewOptionString(color, num = options) {
-    return "<div class=\"new-poll-option d-flex\">" +
-        "<div class=\"new-poll-option-colorBox-outer\">" +
+    return "<div class=\"new-poll-option d-flex mb-2\">" +
+        "<div class=\"new-poll-option-colorBox-outer mr-1\">" +
         "<div class=\"new-poll-option-colorBox-inner\" data-color-number=" + (num - 1) + " style=\"background:" + color + "\">" + color + "</div>" +
         "</div>" +
         "<input class=\"form-control\" placeholder=\"Option " + num + "\" name=\"option" + num + "\">" +

@@ -96,7 +96,7 @@ function getColors() {
 function generateNewOptionString(color) {
     var num = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : options;
 
-    return "<div class=\"new-poll-option d-flex\">" + "<div class=\"new-poll-option-colorBox-outer\">" + "<div class=\"new-poll-option-colorBox-inner\" data-color-number=" + (num - 1) + " style=\"background:" + color + "\">" + color + "</div>" + "</div>" + "<input class=\"form-control\" placeholder=\"Option " + num + "\" name=\"option" + num + "\">" + "</div>";
+    return "<div class=\"new-poll-option d-flex mb-2\">" + "<div class=\"new-poll-option-colorBox-outer mr-1\">" + "<div class=\"new-poll-option-colorBox-inner\" data-color-number=" + (num - 1) + " style=\"background:" + color + "\">" + color + "</div>" + "</div>" + "<input class=\"form-control\" placeholder=\"Option " + num + "\" name=\"option" + num + "\">" + "</div>";
 }
 
 //making color input box invisible, setting up and applying any color changes
@@ -355,7 +355,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var colorInputBox = void 0;
 
-var colorInputBoxString = "<div class=\"color-input-box w-25\"><input class=\"form-control\" id=\"colorInput\"><button class=\"btn btn-block btn-primary\">Submit</button></div>";
+var colorInputBoxString = "<div class=\"color-input-box w-25\"><input class=\"form-control\" id=\"colorInput\"><button class=\"button btn-block button-primary custom-submit-button\">Save</button></div>";
 
 var colorInput = function () {
     function colorInput() {

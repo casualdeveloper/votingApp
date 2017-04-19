@@ -103,10 +103,8 @@ body {
 
 .new-poll-option-colorBox-outer {
     @include absoluteSize(38px, 38px);
-    border: 1px solid rgba(50, 50, 50, 0.5);
-    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
     background: white;
-    margin-right: 2px;
     cursor: pointer;
 }
 
@@ -119,15 +117,11 @@ body {
     font-size: 0;
 }
 
-.new-poll-option {
-    margin-bottom: 5px;
-}
-
 .color-input-box {
     transform: translateX(-50%);
     margin-top: -10px;
-    border: 1px solid rgba(50, 50, 50, 0.5);
-    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    //box-shadow: 0px 1px 2px 0px rgba(166, 166, 166, 1);
     width: auto;
     background: white;
     position: fixed;
@@ -142,4 +136,13 @@ body {
 
 .fa {
     vertical-align: middle;
+}
+
+input {
+    border-radius: 0px!important;
+}
+
+.custom-submit-button {
+    border-radius: 0px !important;
+    box-shadow: 0px 1px 2px 0px rgba(166, 166, 166, 1);
 }

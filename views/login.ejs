@@ -1,23 +1,25 @@
 <%- include ./header %>
     <div class="container">
         <div class="card">
-            <div class="card-block ">
-                <form class="form-signin col-md-6 offset-md-3" method="POST" action="/login/uap">
+            <div class="card-block w-50 mx-auto  ">
+                <form class="form-signin" method="POST" action="/login/uap">
                     <h2 class="form-signin-heading">Log in</h2>
                     <label for="inputUsername" class="sr-only">Username</label>
-                    <input type="username" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-                    <br>
+                    <input type="username" name="username" id="inputUsername" class="form-control mb-2" placeholder="Username" required autofocus>
                     <label for="inputPassword" class="sr-only">Password</label>
-                    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                    <br>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
+                    <input type="password" name="password" id="inputPassword" class="form-control mb-3" placeholder="Password" required>
+                    <div class="d-flex justify-content-start">
+                        <a class="button button-square" href="/login/twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                        <button class="button custom-submit-button ml-auto" type="submit">Sign In</button>
+                    </div>
                 </form>
-                <br>
-                <div class="text-center">Or</div>
+
                 <hr>
-                <div class="text-center">
-                    <a href="/login/twitter"><i class="fa fa-twitter-square fa-3x" aria-hidden="true"></i></a>
+
+                <div class="d-flex justify-content-center">
+                    <a class="button custom-submit-button" href="/signup">Don't have account?</a>
                 </div>
+
             </div>
         </div>
     </div>

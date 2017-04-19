@@ -4,7 +4,7 @@ import { normalizeToHex } from "./colorGenerator";
 
 let colorInputBox;
 
-let colorInputBoxString = "<div class=\"color-input-box w-25\"><input class=\"form-control\" id=\"colorInput\"><button class=\"btn btn-block btn-primary\">Submit</button></div>";
+let colorInputBoxString = "<div class=\"color-input-box w-25\"><input class=\"form-control\" id=\"colorInput\"><button class=\"button btn-block button-primary custom-submit-button\">Save</button></div>";
 
 class colorInput {
     constructor() {
