@@ -1,11 +1,10 @@
-webpackJsonp([0],{
-
-/***/ 0:
+webpackJsonp([0],[
+/* 0 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_colorGenerator__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_colorInput__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_colorGenerator__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_colorInput__ = __webpack_require__(14);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getColors; });
 /* global $ */
 
@@ -147,209 +146,7 @@ function bindSetup() {
 
 
 /***/ }),
-
-/***/ 1:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__newPollOptions__ = __webpack_require__(0);
-/* global $ */
-var newPollForm = $("#newPollForm");
-
-
-
-newPollForm.on("submit", function (e) {
-    //To prevent reload
-    e.preventDefault();
-
-    //Get data from Form
-    var data = newPollForm.serializeArray();
-
-    //Extract options from Form
-    var options = [];
-    //begins at 1 to skip the title
-    for (var i = 1; i < data.length; i++) {
-        options.push(data[i].value);
-    }
-
-    //Generate colors, data.length-1 here is to subtract title from length
-
-    data = {
-        title: data[0].value,
-        options: options,
-        colors: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__newPollOptions__["a" /* getColors */])()
-    };
-
-    //Send data
-    $.ajax({
-        type: "POST",
-        url: "/poll",
-        data: data,
-        dataType: "json",
-        success: function success(data) {
-            // Data here is response from server
-            if (typeof data.redirect === "string") {
-                // redirect 
-                window.location = data.redirect;
-            }
-        }
-
-    });
-});
-
-/***/ }),
-
-/***/ 13:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__colorGenerator__ = __webpack_require__(20);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/* global $ */
-
-
-
-var colorInputBox = void 0;
-
-var colorInputBoxString = "<div class=\"color-input-box w-25\"><input class=\"form-control\" id=\"colorInput\"><button class=\"btn btn-block btn-primary\">Submit</button></div>";
-
-var colorInput = function () {
-    function colorInput() {
-        _classCallCheck(this, colorInput);
-
-        colorInputBox = $(colorInputBoxString).appendTo("body").hide();
-        bind();
-        this.inputVar = colorInputBox.children("input");
-        this.state = false;
-        this.submitButton = colorInputBox.children("button");
-        this.prevColor; // prevColor just a placeholder for older color if "error" would occur when typing in new one
-    }
-
-    _createClass(colorInput, [{
-        key: "setPositionY",
-        value: function setPositionY(y) {
-            if (!colorInputBox) {
-                return null;
-            }
-            colorInputBox.css("top", y);
-        }
-    }, {
-        key: "activate",
-        value: function activate(color) {
-            if (this.state) {
-                this.changeInputVal(color);
-                return null;
-            }
-
-            this.prevColor = color;
-            this.changeInputVal(color);
-            colorInputBox.show();
-            this.state = true;
-        }
-    }, {
-        key: "disable",
-        value: function disable() {
-            if (!this.state) return null;
-
-            colorInputBox.hide();
-            this.state = false;
-        }
-    }, {
-        key: "changeInputVal",
-        value: function changeInputVal(val) {
-            this.inputVar.val(val);
-        }
-    }, {
-        key: "getColor",
-        get: function get() {
-            var tempColor = this.inputVar.val();
-
-            //if used weird value normalizeToHex should return null
-
-            tempColor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__colorGenerator__["b" /* normalizeToHex */])(tempColor);
-            if (!tempColor) tempColor = this.prevColor;
-
-            return tempColor;
-        }
-    }, {
-        key: "getSubmitButton",
-        get: function get() {
-            return this.submitButton;
-        }
-    }, {
-        key: "getState",
-        get: function get() {
-            return this.state;
-        }
-    }]);
-
-    return colorInput;
-}();
-
-function bind() {
-    colorInputBox.on("click", function (e) {
-        e.stopPropagation();
-    });
-}
-
-/* harmony default export */ __webpack_exports__["a"] = colorInput;
-
-/***/ }),
-
-/***/ 15:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__showChart__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__newPollOptions__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__newPollPost__ = __webpack_require__(1);
-
-
-
-
-/***/ }),
-
-/***/ 2:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js_dist_Chart_min_js__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js_dist_Chart_min_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_chart_js_dist_Chart_min_js__);
-/* global poll */
-
-
-
-(function () {
-
-    var ctx = document.getElementById("myChart");
-    //check if myChart exists (it only exists in page that shows chart)
-    if (ctx != null) {
-
-        var jsPoll = poll;
-
-        var data = {
-            labels: jsPoll.options,
-            datasets: [{
-                data: jsPoll.results,
-                backgroundColor: jsPoll.colors,
-                hoverBackgroundColor: jsPoll.colors
-            }]
-        };
-        new __WEBPACK_IMPORTED_MODULE_0_chart_js_dist_Chart_min_js___default.a(ctx.getContext("2d"), {
-            type: "doughnut",
-            data: data,
-            options: {}
-        });
-    }
-})();
-
-/***/ }),
-
-/***/ 20:
+/* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -447,7 +244,213 @@ function fix1CharString(a) {
 /* unused harmony default export */ var _unused_webpack_default_export = generateColor;
 
 
-/***/ })
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-},[15]);
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__newPollOptions__ = __webpack_require__(0);
+/* global $ */
+var newPollForm = $("#newPollForm");
+
+
+
+newPollForm.on("submit", function (e) {
+    //To prevent reload
+    e.preventDefault();
+
+    //Get data from Form
+    var data = newPollForm.serializeArray();
+
+    //Extract options from Form
+    var options = [];
+    //begins at 1 to skip the title
+    for (var i = 1; i < data.length; i++) {
+        options.push(data[i].value);
+    }
+
+    //Generate colors, data.length-1 here is to subtract title from length
+
+    data = {
+        title: data[0].value,
+        options: options,
+        colors: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__newPollOptions__["a" /* getColors */])()
+    };
+
+    //Send data
+    $.ajax({
+        type: "POST",
+        url: "/poll",
+        data: data,
+        dataType: "json",
+        success: function success(data) {
+            // Data here is response from server
+            if (typeof data.redirect === "string") {
+                // redirect 
+                window.location = data.redirect;
+            }
+        }
+
+    });
+});
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js_dist_Chart_min_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js_dist_Chart_min_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_chart_js_dist_Chart_min_js__);
+/* global poll */
+
+
+
+(function () {
+
+    var ctx = document.getElementById("myChart");
+    //check if myChart exists (it only exists in page that shows chart)
+    if (ctx != null) {
+
+        var jsPoll = poll;
+
+        var data = {
+            labels: jsPoll.options,
+            datasets: [{
+                data: jsPoll.results,
+                backgroundColor: jsPoll.colors,
+                hoverBackgroundColor: jsPoll.colors
+            }]
+        };
+        new __WEBPACK_IMPORTED_MODULE_0_chart_js_dist_Chart_min_js___default.a(ctx.getContext("2d"), {
+            type: "doughnut",
+            data: data,
+            options: {}
+        });
+    }
+})();
+
+/***/ }),
+/* 4 */,
+/* 5 */,
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__colorGenerator__ = __webpack_require__(1);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/* global $ */
+
+
+
+var colorInputBox = void 0;
+
+var colorInputBoxString = "<div class=\"color-input-box w-25\"><input class=\"form-control\" id=\"colorInput\"><button class=\"btn btn-block btn-primary\">Submit</button></div>";
+
+var colorInput = function () {
+    function colorInput() {
+        _classCallCheck(this, colorInput);
+
+        colorInputBox = $(colorInputBoxString).appendTo("body").hide();
+        bind();
+        this.inputVar = colorInputBox.children("input");
+        this.state = false;
+        this.submitButton = colorInputBox.children("button");
+        this.prevColor; // prevColor just a placeholder for older color if "error" would occur when typing in new one
+    }
+
+    _createClass(colorInput, [{
+        key: "setPositionY",
+        value: function setPositionY(y) {
+            if (!colorInputBox) {
+                return null;
+            }
+            colorInputBox.css("top", y);
+        }
+    }, {
+        key: "activate",
+        value: function activate(color) {
+            if (this.state) {
+                this.changeInputVal(color);
+                return null;
+            }
+
+            this.prevColor = color;
+            this.changeInputVal(color);
+            colorInputBox.show();
+            this.state = true;
+        }
+    }, {
+        key: "disable",
+        value: function disable() {
+            if (!this.state) return null;
+
+            colorInputBox.hide();
+            this.state = false;
+        }
+    }, {
+        key: "changeInputVal",
+        value: function changeInputVal(val) {
+            this.inputVar.val(val);
+        }
+    }, {
+        key: "getColor",
+        get: function get() {
+            var tempColor = this.inputVar.val();
+
+            //if used weird value normalizeToHex should return null
+
+            tempColor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__colorGenerator__["b" /* normalizeToHex */])(tempColor);
+            if (!tempColor) tempColor = this.prevColor;
+
+            return tempColor;
+        }
+    }, {
+        key: "getSubmitButton",
+        get: function get() {
+            return this.submitButton;
+        }
+    }, {
+        key: "getState",
+        get: function get() {
+            return this.state;
+        }
+    }]);
+
+    return colorInput;
+}();
+
+function bind() {
+    colorInputBox.on("click", function (e) {
+        e.stopPropagation();
+    });
+}
+
+/* harmony default export */ __webpack_exports__["a"] = colorInput;
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__showChart__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__newPollOptions__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__newPollPost__ = __webpack_require__(2);
+
+
+
+
+/***/ })
+],[15]);
 //# sourceMappingURL=app.js.map

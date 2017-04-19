@@ -40,7 +40,7 @@ router.post("/poll", isLoggedIn, function(req, res) {
     poll.create(data, (err, newPoll) => {
         if (err) {
             req.flash("error", "Oops something went wrong, please try again later");
-            res.redirect("back");
+            return res.redirect("back");
         } else {
             //Add author to the poll
             newPoll.author.id = req.user._id;
@@ -72,22 +72,23 @@ router.post("/poll", isLoggedIn, function(req, res) {
 router.get("/poll/:id", function(req, res) {
     var renderObj;
     poll.findById(req.params.id, function(err, obj) {
-        if (err) {
-            console.log("Error", err);
-            renderObj = "error";
+        if (err || !obj) {
+            req.flash("error", "Poll not found!");
+            return res.redirect("back");
         } else {
             renderObj = obj;
+            res.render("poll/poll.ejs", { poll: renderObj });
         }
-        res.render("poll/poll.ejs", { poll: renderObj });
+
     });
 });
 
 router.delete("/poll/:id", checkPollOwnership, function(req, res) {
     //delete poll from database
-    poll.findByIdAndRemove(req.params.id, function(err) {
-        if (err) {
+    poll.findByIdAndRemove(req.params.id, function(err, pollFound) {
+        if (err || !pollFound) {
             req.flash("error", "Poll not found!");
-            res.redirect("back");
+            return res.redirect("back");
         } else {
             //delete poll from the list of all polls that user created 
             let objId = mongoose.Types.ObjectId(req.params.id);
@@ -106,9 +107,9 @@ router.delete("/poll/:id", checkPollOwnership, function(req, res) {
 
 router.post("/pollVote/:id", function(req, res) {
     poll.findById(req.params.id, function(err, pollToUpdate) {
-        if (err) {
+        if (err || !pollToUpdate) {
             req.flash("error", "Poll not found");
-            res.redirect("back");
+            return res.redirect("back");
         }
         let intIpAdress = dotToInt(req.ip);
         //addToSet checks if ip adress exists, if not adds it to the pollsArray
