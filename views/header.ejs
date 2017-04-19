@@ -15,26 +15,17 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top justify-content-between" id="menu">
+    <nav class="navbar navbar-inverse bg-inverse fixed-top justify-content-between" id="menu">
         <div class="container">
-
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             <a class="navbar-brand" href="/">Home</a>
 
-            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-                <ul class="navbar-nav mr-auto ">
-                    <!-- items on the left -->
-                </ul>
-                
+            <div class="navbar-header pull-right form-inline">
                 <% if(!user){ %>
-                    <a class="btn btn-outline-success my-2 my-sm-0 mr-sm-2" href="/login">Sign In</a>
-                    <a class="btn btn-outline-info my-2 my-sm-0" href="/signup">Sign Up</a>
+                    <a class="button button-plain button-border button-square my-2 my-sm-0 mr-sm-2" href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
                 <% }else{ %>
-                    <a class="nav-link" href=<%= "/user/"+user._id %> > <%= user.profileName %> </a>
-                    <a class="btn btn-outline-primary my-2 my-sm-0 mr-sm-2" href="/poll/new">New Poll</a>
-                    <a class="btn btn-outline-danger my-2 my-sm-0" href="/logout">Logout</a>
+                    <a class="button button-action button-border button-square mr-sm-2" href=<%= "/user/"+user._id %> ><i class="fa fa-user" aria-hidden="true"></i></a>
+                    <a class="button button-primary button-border button-square my-2 my-sm-0 mr-sm-2" href="/poll/new"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                    <a class="button button-caution button-border button-square my-2 my-sm-0" href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
                 <% } %>
 
 

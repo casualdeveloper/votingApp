@@ -105,4 +105,7 @@ body {
   .color-input-box > :first-child {
     margin-bottom: 5px; }
 
+.fa {
+  vertical-align: middle; }
+
 /*# sourceMappingURL=style.css.map*/
