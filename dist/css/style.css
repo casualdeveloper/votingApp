@@ -27,8 +27,24 @@ body {
   background: white;
   margin-bottom: 0px; }
 
+#indexPollRow {
+  margin-left: 0px;
+  margin-right: 0px; }
+
+.card {
+  border: none;
+  border-radius: 0px;
+  box-shadow: 0px 1px 2px 0px #a6a6a6; }
+
 .list-custom-button {
-  text-align: left; }
+  border-radius: 0px;
+  background: #292b2c;
+  color: white !important; }
+  .list-custom-button:hover {
+    background: #383c3d; }
+
+.list-custom-button-shadow {
+  box-shadow: 0px 1px 2px 0px #a6a6a6; }
 
 .list-custom-button-spacing:not(:last-child) {
   margin-bottom: 8px; }

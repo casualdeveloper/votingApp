@@ -11,7 +11,7 @@
                     <h2 class="text-center"><%= polls %></h2>
                 <% } else { %>
                     <% for(var i = 0; i < polls.length; i++){ %>
-                        <div class="profile-poll-button-group list-custom-button-spacing">
+                        <div class="profile-poll-button-group list-custom-button-spacing list-custom-button-shadow">
                             <a href=<%= "/poll/" + polls[i]._id %> class="button button-block button-action button-jumbo w-100 list-custom-button">
                                 <%= polls[i].title %>
                             </a>
