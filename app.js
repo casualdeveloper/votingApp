@@ -21,7 +21,7 @@ var authRoutes = require("./routes/auth");
 var usersRoutes = require("./routes/users");
 // =================================================
 
-mongoose.connect("mongodb://localhost/votingapp");
+mongoose.connect(process.env.MONGOLAB_URL);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
