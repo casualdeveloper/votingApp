@@ -5,10 +5,6 @@ const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const BitBarWebpackProgressPlugin = require("bitbar-webpack-progress-plugin");
 
-const ClosureCompilerPlugin = require("webpack-closure-compiler");
-
-const BabiliPlugin = require("babili-webpack-plugin");
-
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 
 
@@ -38,7 +34,7 @@ module.exports = {
     },
     devtool: "cheap-source-map",
     output: {
-        filename: "[name].js",
+        filename: "[name].[chunkhash].js",
         path: PATHS.build
     },
     module: {
@@ -71,17 +67,8 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin([PATHS.build]),
-        /*new ClosureCompilerPlugin({
-            compiler: {
-                language_in: 'ECMASCRIPT6',
-                language_out: 'ECMASCRIPT5',
-                compilation_level: 'ADVANCED'
-            },
-            concurrency: 3,
-        }),*/
-        //new BabiliPlugin(),
         new ExtractTextPlugin({
-            filename: "css/[name].css",
+            filename: "css/[name].[contenthash].css",
         }),
         new BitBarWebpackProgressPlugin(),
         new webpack.optimize.CommonsChunkPlugin({
@@ -93,7 +80,6 @@ module.exports = {
                 resource.match(/\.js$/)
             ),
         }),
-        //new webpack.optimize.UglifyJsPlugin()
 
     ]
 
