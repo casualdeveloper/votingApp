@@ -1,13 +1,13 @@
 <%- include ../header.ejs %>
     <div class="container">
         <div class="card">
-            <div class="card-block w-50 mx-auto">
+            <div class="card-block w-md-50 mx-auto">
                 <form method="POST" action="/poll" id="newPollForm">
                     <h2 class="text-center">New Poll</h2>
 
                     <hr>
 
-                    <div class="d-flex justify-content-end">
+                    <div class="d-sm-flex justify-content-end">
                         <button id="addOptionBtn" class="btn custom-submit-button btn-success mr-2" type="button">Add option</button>
                         <button id="removeOptionBtn" class="btn custom-submit-button btn-danger" type="button" disabled>Delete option</button>
                     </div>
