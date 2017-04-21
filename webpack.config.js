@@ -34,7 +34,7 @@ module.exports = {
     },
     devtool: "cheap-source-map",
     output: {
-        filename: "[name].[chunkhash].js",
+        filename: (process.env.NODE_ENV === "production") ? "[name].[chunkhash].js" : "[name].js",
         path: PATHS.build
     },
     module: {
@@ -68,7 +68,7 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin([PATHS.build]),
         new ExtractTextPlugin({
-            filename: "css/[name].[contenthash].css",
+            filename: (process.env.NODE_ENV === "production") ? "css/[name].[contenthash].css" : "css/[name].css",
         }),
         new BitBarWebpackProgressPlugin(),
         new webpack.optimize.CommonsChunkPlugin({

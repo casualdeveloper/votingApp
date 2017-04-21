@@ -1,3 +1,5 @@
+require("./_dev_config.js");
+
 var ids = {
     twitter: {
         consumerKey: process.env.TwitterConsumerKey,

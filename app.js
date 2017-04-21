@@ -10,7 +10,7 @@ var compression = require("compression");
 var methodOverride = require("method-override");
 var config = require("./_config.js");
 var flash = require("connect-flash");
-
+require("./_dev_config.js");
 
 app.use(compression());
 app.use(methodOverride("_method"));
@@ -110,7 +110,7 @@ app.use(function(req, res) {
     res.status(404).render("404.ejs");
 });
 
-app.listen(process.env.PORT || 8080, function(err) {
+app.listen(process.env.PORT || 8080, process.env.IP, function(err) {
     if (err) console.log("error ", err);
     else console.log("server started successfully");
 });
