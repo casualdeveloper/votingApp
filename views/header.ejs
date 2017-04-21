@@ -21,11 +21,11 @@
 
             <div class="navbar-header pull-right form-inline">
                 <% if(!user){ %>
-                    <a class="button button-plain button-border button-square " href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
+                    <a class="button button-plain button-border button-square " href="/login" data-toggle="tooltip" data-placement="bottom" title="Sign in"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
                 <% }else{ %>
-                    <a class="button button-action button-border button-square mr-2" href=<%= "/user/"+user._id %> ><i class="fa fa-user" aria-hidden="true"></i></a>
-                    <a class="button button-primary button-border button-square  mr-2" href="/poll/new"><i class="fa fa-plus" aria-hidden="true"></i></a>
-                    <a class="button button-caution button-border button-square " href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                    <a class="button button-action button-border button-square mr-2 " data-toggle="tooltip" data-placement="bottom" title="Profile" href=<%= "/user/"+user._id %> ><i class="fa fa-user" aria-hidden="true"></i></a>
+                    <a class="button button-primary button-border button-square  mr-2" data-toggle="tooltip" data-placement="bottom" title="New Poll" href="/poll/new"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                    <a class="button button-caution button-border button-square " data-toggle="tooltip" data-placement="bottom" title="Exit" href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
                 <% } %>
 
 
