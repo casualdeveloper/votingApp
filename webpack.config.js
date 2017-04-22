@@ -7,7 +7,7 @@ const BitBarWebpackProgressPlugin = require("bitbar-webpack-progress-plugin");
 
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 
-
+const ManifestPlugin = require("webpack-manifest-plugin");
 
 const PATHS = {
     src: path.join(__dirname, "src/js"),
@@ -80,7 +80,7 @@ module.exports = {
                 resource.match(/\.js$/)
             ),
         }),
-
+        new ManifestPlugin()
     ]
 
 };
