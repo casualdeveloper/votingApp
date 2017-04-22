@@ -10,6 +10,7 @@
                     var poll = <%- JSON.stringify(poll) %>;
                 </script>
                 <br>
+                <a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="Check this poll" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
                 <form action="/pollVote/<%= poll._id %>" method="POST">
                     <select class="form-control" name="option">
                         <% for(var i = 0; i < poll.options.length; i++){ %>
