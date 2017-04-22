@@ -11,6 +11,7 @@ var methodOverride = require("method-override");
 var config = require("./_config.js");
 var flash = require("connect-flash");
 require("./_dev_config.js");
+var manifest = require("./dist/manifest.json");
 
 app.use(compression());
 app.use(methodOverride("_method"));
@@ -31,11 +32,15 @@ app.use(flash());
 
 //PASSPORT CONFIG =======================================
 
-app.use(require("express-session")({
-    secret: "secret",
-    resave: false,
-    saveUninitialized: false
+
+var sessions = require("client-sessions");
+app.use(sessions({
+    cookieName: "session",
+    secret: process.env.SESSION_SECRET,
+    duration: 7 * 24 * 60 * 60 * 1000,
+    activeDuration: 3 * 24 * 60 * 60 * 1000
 }));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -90,6 +95,7 @@ app.use(function(req, res, next) {
     res.locals.user = req.user;
     res.locals.error = req.flash("error");
     res.locals.success = req.flash("success");
+    res.locals.manifest = manifest;
     next();
 });
 
